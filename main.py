@@ -8,11 +8,13 @@ def add():
     website = website_entry.get()
     email = email_entry.get()
     pw = pw_entry.get()
+
+    with open("data.txt", mode="a") as data:
+        data.write(f"{website} | {email} | {pw}\n")
+
     website_entry.delete(0, END)
     email_entry.delete(0, END)
     pw_entry.delete(0, END)
-    with open("data.txt", mode="a") as data:
-        data.write(f"{website} | {email} | {pw}")
 
 
 # ---------------------------- UI SETUP ------------------------------- #
