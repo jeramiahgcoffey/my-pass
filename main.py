@@ -4,6 +4,7 @@ import random
 import pyperclip
 import json
 
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_pw():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
@@ -45,9 +46,7 @@ def add(event=None):
     if website == "" or email == "" or pw == "":
         messagebox.showwarning(message="Please complete all fields")
     else:
-        is_ok = messagebox.askokcancel(title=website, message="These are the details entered: \n"
-                                                              f"Email: {email} \nPassword: {pw} \n"
-                                                              f"Is it okay to save?")
+        is_ok = messagebox.askyesno(message=f"{website}\n\nEmail: {email} \nPassword: {pw} \n \nIs it okay to save?")
         if is_ok:
             try:
                 with open("data.json", mode="r") as data_file:
@@ -68,6 +67,26 @@ def add(event=None):
                 pw_entry.delete(0, END)
 
 
+# ---------------------------- SEARCH FOR PASSWORD ------------------------------- #
+def search():
+    website = website_entry.get().title()
+
+    try:
+        with open("data.json", mode="r") as data_file:
+            data = json.load(data_file)
+            for key, value in data.items():
+                if key == website:
+                    email_match = data[key]["email"]
+                    pw_match = data[key]["password"]
+                    messagebox.showinfo(title=website, message=f"Email: {email_match} \n"
+                                                               f"Password: {pw_match}")
+                else:
+                    messagebox.showerror(message="Record not found")
+                    break
+    except FileNotFoundError:
+        messagebox.showerror(message="Record not found")
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 app = Tk()
 app.title("Password Manager")
@@ -84,15 +103,15 @@ canvas.grid(row=0, column=1)
 website_label = Label(text="Website:")
 website_label.grid(row=1, column=0, sticky=E)
 
-website_entry = Entry(width=35)
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry = Entry(width=21)
+website_entry.grid(row=1, column=1)
 website_entry.focus()
 
 email_label = Label(text="Email/Username:")
 email_label.grid(row=2, column=0, sticky=E)
 
-email_entry = Entry(width=35)
-email_entry.grid(row=2, column=1, columnspan=2)
+email_entry = Entry(width=21)
+email_entry.grid(row=2, column=1)
 
 pw_label = Label(text="Password:")
 pw_label.grid(row=3, column=0, sticky=E)
@@ -105,5 +124,8 @@ gen_pw.grid(row=3, column=2)
 
 add_button = Button(text="Add", width=36, command=add)
 add_button.grid(row=4, column=1, columnspan=2)
+
+search_button = Button(text="Search Records", width=13, command=search)
+search_button.grid(row=1, column=2)
 
 app.mainloop()
