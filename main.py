@@ -30,6 +30,9 @@ def generate_pw():
     pw_entry.insert(0, password)
     pyperclip.copy(password)
 
+    messagebox.showinfo(message="Your generated password has\n"
+                                "been copied to the clipboard")
+
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def add(event=None):
@@ -46,7 +49,7 @@ def add(event=None):
     if website == "" or email == "" or pw == "":
         messagebox.showwarning(message="Please complete all fields")
     else:
-        is_ok = messagebox.askyesno(message=f"{website}\n\nEmail: {email} \nPassword: {pw} \n \nIs it okay to save?")
+        is_ok = messagebox.askyesno(message=f"{website}\n\nUsername: {email} \nPassword: {pw} \n \nIs it okay to save?")
         if is_ok:
             try:
                 with open("data.json", mode="r") as data_file:
@@ -78,7 +81,7 @@ def search():
                 if key == website:
                     email_match = data[key]["email"]
                     pw_match = data[key]["password"]
-                    messagebox.showinfo(title=website, message=f"Email: {email_match} \n"
+                    messagebox.showinfo(title=website, message=f"Username: {email_match} \n"
                                                                f"Password: {pw_match}")
                 else:
                     messagebox.showerror(message="Record not found")
@@ -122,8 +125,8 @@ pw_entry.grid(row=3, column=1)
 gen_pw = Button(text="Generate Password", command=generate_pw)
 gen_pw.grid(row=3, column=2)
 
-add_button = Button(text="Add", width=36, command=add)
-add_button.grid(row=4, column=1, columnspan=2)
+add_button = Button(text="Add", width=22, command=add, pady=5)
+add_button.grid(row=4, column=1, pady=10)
 
 search_button = Button(text="Search Records", width=13, command=search)
 search_button.grid(row=1, column=2)
