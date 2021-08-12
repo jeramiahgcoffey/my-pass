@@ -77,7 +77,6 @@ def search():
     try:
         with open("data.json", mode="r") as data_file:
             data = json.load(data_file)
-            # for key, value in data.items():
             if website in data:
                 email_match = data[website]["email"]
                 pw_match = data[website]["password"]
