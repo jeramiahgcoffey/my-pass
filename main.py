@@ -53,18 +53,19 @@ def add(event=None):
                 with open("data.json", mode="r") as data_file:
                     # Reading old data
                     data = json.load(data_file)
-                    # Updating old data with new data
-                    data.update(new_data)
             except FileNotFoundError:
                 with open("data.json", mode="w") as data_file:
                     json.dump(new_data, data_file, indent=4)
             else:
+                # Updating old data with new data
+                data.update(new_data)
                 with open("data.json", mode="w") as data_file:
+                    # Add updated data to data_file
                     json.dump(data, data_file, indent=4)
-
-            website_entry.delete(0, END)
-            email_entry.delete(0, END)
-            pw_entry.delete(0, END)
+            finally:
+                website_entry.delete(0, END)
+                email_entry.delete(0, END)
+                pw_entry.delete(0, END)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
