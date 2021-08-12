@@ -77,15 +77,14 @@ def search():
     try:
         with open("data.json", mode="r") as data_file:
             data = json.load(data_file)
-            for key, value in data.items():
-                if key == website:
-                    email_match = data[key]["email"]
-                    pw_match = data[key]["password"]
-                    messagebox.showinfo(title=website, message=f"Username: {email_match} \n"
-                                                               f"Password: {pw_match}")
-                else:
-                    messagebox.showerror(message="Record not found")
-                    break
+            # for key, value in data.items():
+            if website in data:
+                email_match = data[website]["email"]
+                pw_match = data[website]["password"]
+                messagebox.showinfo(title=website, message=f"Username: {email_match} \n"
+                                                           f"Password: {pw_match}")
+            else:
+                messagebox.showerror(message="Record not found")
     except FileNotFoundError:
         messagebox.showerror(message="Record not found")
 
